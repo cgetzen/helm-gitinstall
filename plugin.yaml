@@ -1,0 +1,7 @@
+name: "gitinstall"
+version: "0.1.0"
+usage: "Installs a chart from a remote git"
+description: |-
+          This is a demonstration plugin that prints Hello and then exists.
+command: "$HELM_PLUGIN_DIR/gitinstall.sh"
+
