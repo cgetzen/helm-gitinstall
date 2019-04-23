@@ -11,6 +11,13 @@ ACTION=$1; shift
 PASS_PARAMS=""
 
 case $ACTION in
+    -h|--help|help)
+    echo "Install:"
+    echo "# helm git install https://github.com/helm/charts/stable/aerospike -b=master -n test"
+    echo "Upgrade:"
+    echo "# helm git upgrade test https://github.com/helm/charts/stable/aerospike -b=master --set=id=a"
+    exit
+    ;;
     upgrade)
     PRE_PASS_PARAMS=$1; shift
     CHART_URL=$1; shift
