@@ -1,4 +1,4 @@
-name: "gitinstall"
+name: "git"
 version: "0.1.0"
 usage: "Installs a chart from a remote git"
 description: |-

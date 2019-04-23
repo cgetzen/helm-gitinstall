@@ -1,8 +1,28 @@
 #!/bin/bash
 
+# helm gitinstall https://github.com/helm/charts/stable/aerospike -b featureBranch
+
+# helm git install https://github.com/helm/charts/stable/aerospike -b=master -n test
+# helm git upgrade test https://github.com/helm/charts/stable/aerospike -b=master --set=id=a
+
+
 DEBUG=false
-CHART_URL=$1
+ACTION=$1; shift
 PASS_PARAMS=""
+
+case $ACTION in
+    upgrade)
+    PRE_PASS_PARAMS=$1; shift
+    CHART_URL=$1; shift
+    ;;
+    install)
+    CHART_URL=$1; shift
+    ;;
+    *)
+    echo "command not available"
+    exit 1
+    ;;
+esac
 
 for i in "$@"
 do
@@ -12,9 +32,7 @@ case $i in
     shift # past argument=value
     ;;
     *)
-    if [ "$i" != "$CHART_URL" ]; then
-      PASS_PARAMS="$PASS_PARAMS $i"
-    fi
+    PASS_PARAMS="$PASS_PARAMS $i"
     ;;
 esac
 done
@@ -29,17 +47,6 @@ SVN=$REPO.git/branches/$BRANCH/$REPO_PATH
 TMP=$(mktemp -d)
 svn export $SVN $TMP/tmp > /dev/null
 
-if [ $DEBUG = true ]; then
-  echo chart url: $CHART_URL
-  echo repo: $REPO
-  echo repo path: $REPO_PATH
-  echo branch: $BRANCH
-  echo SVN_url: $SVN
-  echo params: $PASS_PARAMS
-  echo TMP: $TMP
-fi
-
-RUN="$(which helm) install $TMP/tmp $PASS_PARAMS"
-eval "$RUN"
+eval "$(which helm) $ACTION $PRE_PASS_PARAMS $TMP/tmp $PASS_PARAMS"
 
 rm -rf $TMP
