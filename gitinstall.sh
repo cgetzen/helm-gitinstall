@@ -1,12 +1,5 @@
 #!/bin/bash
 
-# helm gitinstall https://github.com/helm/charts/stable/aerospike -b featureBranch
-
-# helm git install https://github.com/helm/charts/stable/aerospike -b=master -n test
-# helm git upgrade test https://github.com/helm/charts/stable/aerospike -b=master --set=id=a
-
-
-DEBUG=false
 ACTION=$1; shift
 PASS_PARAMS=""
 
@@ -27,6 +20,7 @@ case $ACTION in
     ;;
     *)
     echo "command not available"
+    echo "Please use 'helm git -h' for more info"
     exit 1
     ;;
 esac
